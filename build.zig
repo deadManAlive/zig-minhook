@@ -19,12 +19,19 @@ pub fn build(b: *std.Build) void {
             "minhook/src/buffer.c",
             "minhook/src/trampoline.c",
         },
+        .flags = &.{"-fno-sanitize=undefined"},
     });
 
     if (target.result.cpu.arch == .x86_64) {
-        minhook_lib.addCSourceFile(.{ .file = b.path("minhook/src/hde/hde64.c") });
+        minhook_lib.addCSourceFile(.{
+            .file = b.path("minhook/src/hde/hde64.c"),
+            .flags = &.{"-fno-sanitize=undefined"},
+        });
     } else {
-        minhook_lib.addCSourceFile(.{ .file = b.path("minhook/src/hde/hde32.c") });
+        minhook_lib.addCSourceFile(.{
+            .file = b.path("minhook/src/hde/hde32.c"),
+            .flags = &.{"-fno-sanitize=undefined"},
+        });
     }
 
     const module = b.addModule("minhook", .{
